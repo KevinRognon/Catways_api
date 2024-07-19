@@ -93,9 +93,8 @@ exports.add = async (req, res) => {
 
     try {
         let user = await User.create(temp);
-        if (user) {
-            return res.status(200);
-        }
+        return res.status(200);
+
     } catch (e) {
         return res.status(501).json(e);
     }
