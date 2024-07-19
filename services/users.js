@@ -85,20 +85,20 @@ exports.findall = async (req, res, next) => {
 // Ajouter un utilisateur à la base de données Mongo.
 
 exports.add = async (req, res) => {
-    const temp = ({
+    const temp = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password
-    });
+    };
 
     try {
         let user = await User.create(temp);
-        return res.status(200);
-
+        return res.status(200).json({ message: 'User created successfully', user: user });
     } catch (e) {
-        return res.status(501).json(e);
+        return res.status(501).json({ message: 'Error creating user', error: e.message });
     }
 }
+
 
 // Modifier un utilisateur
 
