@@ -14,7 +14,7 @@ router.post('/authenticate', service.authenticate);
 
 router.get('/:id', service.getById);
 router.patch('/update', service.update);
-router.delete('/delete', service.delete);
+router.delete('/:id', service.delete);
 
 
 module.exports = router;
