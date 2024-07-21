@@ -31,10 +31,9 @@ exports.authenticate = async (req, res, next) => {
                     });
 
 
-
+                    res.header('Authorization', 'Bearer ' + token);
 
                     return res.status(200).json({
-                        'token' : token,
                         'user'  : {
                             'name': name,
                             'email': email

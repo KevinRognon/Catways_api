@@ -7,14 +7,14 @@ const private_route = require("../middlewares/private");
 /* GET users listing. */
 
 
-router.get('/findall', service.findall);
-router.post('/add', service.add);
+router.get('/findall', private_route.checkJWT, service.findall);
+router.post('/add', private_route.checkJWT, service.add);
 router.post('/authenticate', service.authenticate);
 
 
-router.get('/:id', service.getById);
+router.get('/:id', private_route.checkJWT, service.getById);
 router.patch('/update', service.update);
-router.delete('/:id', service.delete);
+router.delete('/:id', private_route.checkJWT, service.delete);
 
 
 module.exports = router;
