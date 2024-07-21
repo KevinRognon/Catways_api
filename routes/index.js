@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const userRoute = require("./users");
+const catwaysRoute = require('./catways.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,5 +12,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.use('/users', userRoute);
+router.use('/catways', catwaysRoute);
 
 module.exports = router;
