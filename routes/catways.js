@@ -90,7 +90,7 @@ router.post('/:id/update', private_route.checkJWT, [
 
 
 // Suppression d'un catway
-router.get('/:id/delete', private_route.checkJWT, async function(req, res) {
+router.delete('/:id', private_route.checkJWT, async function(req, res) {
 	try {
 		await service_catway.deleteCatway(req.params.id, req, res);
 	} catch (e) {
