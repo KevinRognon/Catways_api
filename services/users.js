@@ -105,7 +105,7 @@ exports.add = async (req, res) => {
 exports.update = async (req, res, next) => {
     const id = req.params.id;
     const temp = ({
-        username: req.body.username,
+        name: req.body.name,
         email: req.body.email,
         password: req.body.password
     });
@@ -121,12 +121,16 @@ exports.update = async (req, res, next) => {
             });
 
             await user.save();
-            return res.status(201).json(user);
+            return res.status(201).json({
+                message: "Modifications effectuées avec succes."
+            });
         }
 
         return res.status(404).json("user_not_found");
     } catch (e) {
-        return res.status(501).json(e);
+        return res.status(501).json({
+            message: "Erreur lors de la requête. Erreur: " + e
+        });
     }
 }
 
