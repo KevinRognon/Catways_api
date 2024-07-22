@@ -84,9 +84,10 @@ exports.updateCatway = async (id, new_state, req, res) => {
 
 exports.deleteCatway = async (id, req, res) => {
 	try {
-		console.log('Delete catway');
 		await Catway.deleteOne({_id: id});
-		return res.redirect('/catways');
+		return res.status(200).json({
+			message: "Suppression effective"
+		})
 	} catch (e) {
 		return res.status(501).json(`Erreur lors de la suppression du catway: ${e}`);
 	}
