@@ -38,12 +38,16 @@ router.get('/:id', private_route.checkJWT, async function(req, res) {
 	let id = req.params.id;
 	try {
 		let catway = await service_catway.getCatwayById(id);
-		res.render('catways/detailed_catway/detailed_catway', {
-			user: req.session.user,
-			catway: catway
-		})
+		if (catway) {
+			return res.status(200).json({
+				message: 'Success',
+				catway: catway
+			});
+		}
 	} catch (e) {
-		return res.status(501);
+		return res.status(501).json({
+			error_message: "Erreur lors de la requete"
+		});
 	}
 })
 

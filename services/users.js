@@ -58,6 +58,7 @@ exports.getById = async (req, res, next) => {
 
     try {
         let user = await User.findById(id);
+        console.log(user);
         if (user) {
             return res.status(200).json(user);
         }

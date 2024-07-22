@@ -13,7 +13,7 @@ router.post('/authenticate', service.authenticate);
 
 
 router.get('/:id', private_route.checkJWT, service.getById);
-router.patch('/update', service.update);
+router.patch('/update', private_route.checkJWT, service.update);
 router.delete('/:id', private_route.checkJWT, service.delete);
 
 
