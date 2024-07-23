@@ -61,19 +61,16 @@ exports.updateCatway = async (id, new_state, req, res) => {
 		if (catway) {
 
 			catway.catwayState = new_state;
-
+			
 			await catway.save();
-			return res.render('catways/update_catway/update_catway', {
-				user: req.session.user,
-				catway: catway,
-				message: "Catway modifié avec succès!"
-			})
+
+			return {
+				message: "Catway modifié avec succès."
+			}
 		} else {
-			return res.status(404).render('catways/update_catway/update_catway', {
-				user: req.session.user,
-				catway: catway,
-				error_message: "Erreur dans la modification. Veuillez tenter de nouveau."
-			});
+			return {
+				message: "Erreur lors de la modification du catway."
+			}
 		}
 
 	} catch (error) {

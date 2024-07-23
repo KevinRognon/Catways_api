@@ -51,40 +51,19 @@ router.get('/:id', private_route.checkJWT, async function(req, res) {
 	}
 })
 
-router.get('/:id/update', private_route.checkJWT, async function(req, res) {
-	let id = req.params.id;
-	try {
-		let catway = await service_catway.getCatwayById(id);
-		res.render('catways/update_catway/update_catway', {
-			user: req.session.user,
-			catway: catway
-		})
-	} catch (e) {
-		return res.status(501);
-	}
-});
-
-router.post('/:id/update', private_route.checkJWT, [
-	body('catway_state')
-		.isLength({ min: 1 }).withMessage('La longueur doit être de minimum 2 caractères')
-		.matches(/^[a-zA-ZÀ-ÿ\s'’-]+$/).withMessage('Merci de saisir des caractères alphabétiques et des espaces uniquement.')
-
-	], async function(req, res) {
-	const new_state = req.body.catway_state;
+router.patch('/:id/update', private_route.checkJWT, async function(req, res) {
+	const new_state = req.body.catwayState;
 	const id        = req.params.id;
-	const errors    = validationResult(req);
+	try {
+		const response = await service_catway.updateCatway(id, new_state, req, res);
 
-	console.log(errors);
-	if(!errors.isEmpty()) {
-		return res.status(400).json({
-			errors: errors.array()
+		return res.status(200).json({
+			message: response.message
 		});
-	} else {
-		try {
-			await service_catway.updateCatway(id, new_state, req, res);
-		} catch (e) {
-			return res.status(501);
-		}
+	} catch (e) {
+		return res.status(501).json({
+			message: response.message
+		});
 	}
 });
 
