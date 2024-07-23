@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 
 const clientOptions = {
-    useNewUrlParser : true,
+    // useNewUrlParser : true,
     dbName: 'Catways'
 };
 
