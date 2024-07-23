@@ -11,13 +11,8 @@ const moment = require('moment');
 router.get('/', service_catway.getAllCatways);
 
 // Créer un catway
-router.get('/create_catway', private_route.checkJWT, async function (req, res) {
-	res.render('catways/catway_creation_form/catway_creation_form', {
-		user: req.session.user
-	})
-});
 
-router.post('/create_catway_submit', private_route.checkJWT, async function (req, res) {
+router.post('/create', private_route.checkJWT, async function (req, res) {
 	const temp = ({
 		catwayNumber : req.body.catway_number,
 		catwayType   : req.body.catway_type,

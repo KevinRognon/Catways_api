@@ -24,16 +24,14 @@ exports.createCatway = async (temp, req, res) => {
 
 	try {
 		let catway = await Catway.create(temp);
-		res.render('catways/catway_creation_form/catway_creation_form', {
-			message: 'Catway created successfully!',
-			user: req.session.user
+		return res.status(200).json({
+			message: "Catway créé avec succès",
+			catway: catway
 		});
 	} catch (error) {
-		if (error.code === 11000) {
-			res.render('catways/catway_creation_form/catway_creation_form', { error_message: 'Email already used', user: req.user });
-		} else {
-			res.render('catways/catway_creation_form/catway_creation_form', { error_message: 'An error occurred, please try again', user: req.user });
-		}
+		return res.status(200).json({
+			message: "Erreur lors de la requête: " + e
+		});
 	}
 
 };
