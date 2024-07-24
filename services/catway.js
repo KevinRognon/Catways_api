@@ -24,16 +24,14 @@ exports.createCatway = async (temp, req, res) => {
 
 	try {
 		let catway = await Catway.create(temp);
-		res.render('catways/catway_creation_form/catway_creation_form', {
-			message: 'Catway created successfully!',
-			user: req.session.user
+		return res.status(200).json({
+			message: "Catway créé avec succès",
+			catway: catway
 		});
 	} catch (error) {
-		if (error.code === 11000) {
-			res.render('catways/catway_creation_form/catway_creation_form', { error_message: 'Email already used', user: req.user });
-		} else {
-			res.render('catways/catway_creation_form/catway_creation_form', { error_message: 'An error occurred, please try again', user: req.user });
-		}
+		return res.status(501).json({
+			message: "Erreur lors de la requête: " + e
+		});
 	}
 
 };
@@ -61,18 +59,15 @@ exports.updateCatway = async (id, new_state, req, res) => {
 		if (catway) {
 
 			catway.catwayState = new_state;
-
+			
 			await catway.save();
-			return res.render('catways/update_catway/update_catway', {
-				user: req.session.user,
-				catway: catway,
-				message: "Catway modifié avec succès!"
-			})
+
+			return res.status(200).json({
+				message: "Catway modifié avec succès."
+			});
 		} else {
-			return res.status(404).render('catways/update_catway/update_catway', {
-				user: req.session.user,
-				catway: catway,
-				error_message: "Erreur dans la modification. Veuillez tenter de nouveau."
+			return res.status(501).json({
+				message: "Erreur lors de la modification du catway."
 			});
 		}
 

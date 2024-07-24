@@ -11,17 +11,12 @@ const moment = require('moment');
 router.get('/', service_catway.getAllCatways);
 
 // Créer un catway
-router.get('/create_catway', private_route.checkJWT, async function (req, res) {
-	res.render('catways/catway_creation_form/catway_creation_form', {
-		user: req.session.user
-	})
-});
 
-router.post('/create_catway_submit', private_route.checkJWT, async function (req, res) {
+router.post('/create', private_route.checkJWT, async function (req, res) {
 	const temp = ({
-		catwayNumber : req.body.catway_number,
-		catwayType   : req.body.catway_type,
-		catwayState  : req.body.catway_state
+		catwayNumber : req.body.catwayNumber,
+		catwayType   : req.body.catwayType,
+		catwayState  : req.body.catwayState
 	});
 
 
@@ -51,41 +46,11 @@ router.get('/:id', private_route.checkJWT, async function(req, res) {
 	}
 })
 
-router.get('/:id/update', private_route.checkJWT, async function(req, res) {
-	let id = req.params.id;
-	try {
-		let catway = await service_catway.getCatwayById(id);
-		res.render('catways/update_catway/update_catway', {
-			user: req.session.user,
-			catway: catway
-		})
-	} catch (e) {
-		return res.status(501);
-	}
-});
-
-router.post('/:id/update', private_route.checkJWT, [
-	body('catway_state')
-		.isLength({ min: 1 }).withMessage('La longueur doit être de minimum 2 caractères')
-		.matches(/^[a-zA-ZÀ-ÿ\s'’-]+$/).withMessage('Merci de saisir des caractères alphabétiques et des espaces uniquement.')
-
-	], async function(req, res) {
-	const new_state = req.body.catway_state;
+router.patch('/:id/update', private_route.checkJWT, async function(req, res) {
+	const new_state = req.body.catwayState;
 	const id        = req.params.id;
-	const errors    = validationResult(req);
+	await service_catway.updateCatway(id, new_state, req, res);
 
-	console.log(errors);
-	if(!errors.isEmpty()) {
-		return res.status(400).json({
-			errors: errors.array()
-		});
-	} else {
-		try {
-			await service_catway.updateCatway(id, new_state, req, res);
-		} catch (e) {
-			return res.status(501);
-		}
-	}
 });
 
 
