@@ -29,7 +29,7 @@ exports.createCatway = async (temp, req, res) => {
 			catway: catway
 		});
 	} catch (error) {
-		return res.status(200).json({
+		return res.status(501).json({
 			message: "Erreur lors de la requête: " + e
 		});
 	}
@@ -62,13 +62,13 @@ exports.updateCatway = async (id, new_state, req, res) => {
 			
 			await catway.save();
 
-			return {
+			return res.status(200).json({
 				message: "Catway modifié avec succès."
-			}
+			});
 		} else {
-			return {
+			return res.status(501).json({
 				message: "Erreur lors de la modification du catway."
-			}
+			});
 		}
 
 	} catch (error) {

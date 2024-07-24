@@ -14,9 +14,9 @@ router.get('/', service_catway.getAllCatways);
 
 router.post('/create', private_route.checkJWT, async function (req, res) {
 	const temp = ({
-		catwayNumber : req.body.catway_number,
-		catwayType   : req.body.catway_type,
-		catwayState  : req.body.catway_state
+		catwayNumber : req.body.catwayNumber,
+		catwayType   : req.body.catwayType,
+		catwayState  : req.body.catwayState
 	});
 
 
@@ -49,17 +49,8 @@ router.get('/:id', private_route.checkJWT, async function(req, res) {
 router.patch('/:id/update', private_route.checkJWT, async function(req, res) {
 	const new_state = req.body.catwayState;
 	const id        = req.params.id;
-	try {
-		const response = await service_catway.updateCatway(id, new_state, req, res);
+	await service_catway.updateCatway(id, new_state, req, res);
 
-		return res.status(200).json({
-			message: response.message
-		});
-	} catch (e) {
-		return res.status(501).json({
-			message: response.message
-		});
-	}
 });
 
 
