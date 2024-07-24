@@ -66,8 +66,8 @@ exports.updateCatway = async (id, new_state, req, res) => {
 				message: "Catway modifié avec succès."
 			});
 		} else {
-			return res.status(501).json({
-				message: "Erreur lors de la modification du catway."
+			return res.status(404).json({
+				message: "Catway introuvable."
 			});
 		}
 
