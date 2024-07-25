@@ -14,9 +14,56 @@ exports.getAllReservations = async (req, res) => {
 
 		return res.status(404).json('reservations_not_found');
 	} catch (error) {
-		return res.status(501).json({
+		return res.status(500).json({
             error_message: "Erreur lors de la requête."
         });
+	}
+};
+
+exports.createReservation = async (req, res) => {
+	try {
+		const infos = {
+			catwayNumber: req.body.catwayNumber,
+            clientName: req.body.clientName,
+            boatName: req.body.boatName,
+            checkIn: new Date(req.body.checkIn),
+            checkOut: new Date(req.body.checkOut)
+		}
+
+		let existingReservation = await Reservation.find({
+			catwayNumber: infos.catwayNumber,
+			$or: [
+				{
+					checkIn: { $lt : infos.checkIn, $gt: infos.checkout }
+				},
+				{
+					checkOut: { $gt : infos.checkIn, $lt: infos.checkOut }
+				},
+				{
+					checkIn: { $lte: infos.checkIn },
+					checkOut: { $gte: infos.checkOut }
+				}
+			]
+		});
+
+		if (existingReservation.length > 0) {
+			return res.status(400).json({
+				message: "Une réservation est déjà enregistrée pour ce créneau"
+			})
+		}
+
+		const newReservation = await Reservation.create(infos);
+		await newReservation.save(); 
+
+		return res.status(201).json({
+			message: "Réservation créée avec succès",
+			reservation: newReservation
+		})
+
+	} catch (e) {
+		return res.status(500).json({
+			error_message: "Erreur lors de la requête."
+		});
 	}
 };
 
