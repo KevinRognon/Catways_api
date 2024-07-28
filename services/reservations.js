@@ -67,3 +67,25 @@ exports.createReservation = async (req, res) => {
 	}
 };
 
+exports.getReservationInfos = async (req, res) => {
+	const id = req.params.id;
+	try {
+		let reservation = await Reservation.findOne({_id:id});
+		
+		if (reservation) {
+			return res.status(200).json({
+				message: "Success",
+				reservation: reservation
+			})
+		}
+
+		return res.status(404).json({
+			message: "Not found"
+		})
+
+	} catch (e) {
+		return res.status(500).json({
+			message: "Erreur lors de la requête"
+		})
+	}
+}
