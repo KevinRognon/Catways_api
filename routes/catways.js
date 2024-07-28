@@ -8,7 +8,7 @@ const {body, validationResult} = require("express-validator");
 const moment = require('moment');
 
 // Récupérer tous les catways
-router.get('/', service_catway.getAllCatways);
+router.get('/', private_route.checkJWT, service_catway.getAllCatways);
 
 // Créer un catway
 
