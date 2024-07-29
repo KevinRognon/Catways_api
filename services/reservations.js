@@ -1,33 +1,14 @@
 
 const Reservation                     = require('../models/reservation');
 
-exports.getAllReservations = async (req, res) => {
-	try {
-		let reservations = await Reservation.find();
-
-		if (reservations) {
-			return res.status(200).json({
-                message: "Success",
-                reservations: reservations
-            })
-		}
-
-		return res.status(404).json('reservations_not_found');
-	} catch (error) {
-		return res.status(500).json({
-            error_message: "Erreur lors de la requête."
-        });
-	}
-};
-
 exports.createReservation = async (req, res) => {
 	try {
 		const infos = {
 			catwayNumber: req.body.catwayNumber,
-            clientName: req.body.clientName,
-            boatName: req.body.boatName,
-            checkIn: new Date(req.body.checkIn),
-            checkOut: new Date(req.body.checkOut)
+			clientName: req.body.clientName,
+			boatName: req.body.boatName,
+			checkIn: new Date(req.body.checkIn),
+			checkOut: new Date(req.body.checkOut)
 		}
 
 		let existingReservation = await Reservation.find({
@@ -53,7 +34,7 @@ exports.createReservation = async (req, res) => {
 		}
 
 		const newReservation = await Reservation.create(infos);
-		await newReservation.save(); 
+		await newReservation.save();
 
 		return res.status(201).json({
 			message: "Réservation créée avec succès",
@@ -62,10 +43,51 @@ exports.createReservation = async (req, res) => {
 
 	} catch (e) {
 		return res.status(500).json({
-			error_message: "Erreur lors de la requête."
+			message: "Erreur lors de la requête."
 		});
 	}
 };
+
+exports.deleteReservation = async (req, res) => {
+	try {
+
+		const id_reservation = req.params.id;
+
+		await Reservation.deleteOne({_id: id_reservation}).then(() => {
+			return res.status(200).json({
+				message: "Réservation supprimée"
+			})
+		});
+
+
+
+	} catch (e) {
+		return res.status(500).json({
+			error_message: "Erreur lors de la requête."
+		});
+	}
+}
+
+
+exports.getAllReservations = async (req, res) => {
+	try {
+		let reservations = await Reservation.find();
+
+		if (reservations) {
+			return res.status(200).json({
+                message: "Success",
+                reservations: reservations
+            })
+		}
+
+		return res.status(404).json('reservations_not_found');
+	} catch (error) {
+		return res.status(500).json({
+            error_message: "Erreur lors de la requête."
+        });
+	}
+};
+
 
 exports.getReservationInfos = async (req, res) => {
 	const id = req.params.id;
