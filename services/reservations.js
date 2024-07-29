@@ -34,7 +34,7 @@ exports.createReservation = async (req, res) => {
 		}
 
 		const newReservation = await Reservation.create(infos);
-		await newReservation.save(); 
+		await newReservation.save();
 
 		return res.status(201).json({
 			message: "Réservation créée avec succès",
@@ -43,7 +43,7 @@ exports.createReservation = async (req, res) => {
 
 	} catch (e) {
 		return res.status(500).json({
-			error_message: "Erreur lors de la requête."
+			message: "Erreur lors de la requête."
 		});
 	}
 };
