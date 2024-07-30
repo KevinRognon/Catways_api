@@ -22,6 +22,14 @@ exports.getAllCatways = async (req, res) => {
 
 exports.createCatway = async (temp, req, res) => {
 
+	let catway_number = await Catway.findOne({catwayNumber: temp.catwayNumber})
+
+	if(catway_number) {
+		return res.status(400).json({
+			message: "Le catway " + catway_number.catwayNumber + " existe déjà."
+		})
+	}
+
 	try {
 		let catway = await Catway.create(temp);
 		return res.status(200).json({
