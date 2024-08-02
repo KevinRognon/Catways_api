@@ -36,8 +36,9 @@ exports.authenticate = async (req, res, next) => {
 
                     return res.status(200).json({
                         'user'  : {
-                            'name': name,
-                            'email': email,
+                            'id'     : user._id,
+                            'name'   : name,
+                            'email'  : email,
                             'created': user.createdAt
                         }
                     });
@@ -110,6 +111,12 @@ exports.update = async (req, res, next) => {
         email: req.body.email,
         password: req.body.password
     });
+
+    if (temp.name === "" && temp.email === "" && temp.password === "") {
+        return res.status(400).json({
+            message: "Merci de remplir au moins un champ."
+        })
+    }
 
     try {
         let user = await User.findOne({_id: id});
