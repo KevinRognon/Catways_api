@@ -134,7 +134,9 @@ exports.update = async (req, res, next) => {
             });
         }
 
-        return res.status(404).json("user_not_found");
+        return res.status(404).json({
+            message: "user_not_found"
+        });
     } catch (e) {
         return res.status(501).json({
             message: "Erreur lors de la requête. Erreur: " + e
