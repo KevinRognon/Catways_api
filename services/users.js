@@ -129,7 +129,13 @@ exports.update = async (req, res, next) => {
 
             await user.save();
             return res.status(201).json({
-                message: "Modifications effectuées avec succes."
+                message: "Modifications effectuées avec succes.",
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    created: user.createdAt
+                }
             });
         }
 
