@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "env-cmd -f ./.env/.env.dev nodemon ./bin/www",
-    "prod": "env-cmd -f ./.env nodemon ./bin/www"
+    "prod": "env-cmd -f /etc/secrets/.env nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
