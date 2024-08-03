@@ -12,7 +12,6 @@ exports.authenticate = async (req, res, next) => {
 
     try {
         let user = await User.findOne({email: email, name: name}, '-updatedAt');
-        console.log(user);
 
         if (user) {
             bcrypt.compare(password, user.password, function(err, response) {
