@@ -1,5 +1,6 @@
 
-const Catway                     = require('../models/catway');
+const Catway = require('../models/catway');
+const Reservation = require('../models/reservation');
 
 exports.getAllCatways = async (req, res) => {
 	try {
@@ -87,6 +88,8 @@ exports.updateCatway = async (id, new_state, req, res) => {
 
 exports.deleteCatway = async (id, req, res) => {
 	try {
+		const catway = await Catway.findOne({_id: id});
+		await Reservation.deleteMany({catwayNumber: catway.catwayNumber});
 		await Catway.deleteOne({_id: id});
 		return res.status(200).json({
 			message: "Suppression effective"
