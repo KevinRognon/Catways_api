@@ -2,7 +2,6 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "start": "env-cmd -f ./.env/.env.dev nodemon ./bin/www",
     "prod": "env-cmd -f /etc/secrets/.env nodemon ./bin/www",
