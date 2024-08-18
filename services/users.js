@@ -62,6 +62,8 @@ exports.getById = async (req, res, next) => {
     try {
         let user = await User.findById(id);
         if (user) {
+            console.log(user);
+            
             return res.status(200).json(user);
         }
         return res.status(404).json('user_not_found');
