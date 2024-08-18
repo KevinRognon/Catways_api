@@ -10,9 +10,7 @@ exports.createFile = (req, res, next) => {
     });
 
     file.save().then(() => {
-        res.status(201).json({
-            message: "Image enregistrée!"
-        })
+        res.status(201).json(req.file)
     }).catch( error => {
         res.status(400).json({
             message: error

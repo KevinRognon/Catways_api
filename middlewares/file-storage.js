@@ -11,9 +11,10 @@ const storage = multer.diskStorage({
         callback(null, 'uploads');  // Spécifie le dossier de destination
     },
     filename: (req, file, callback) => {
+        let userid = req.decoded.user._id;
+        
         const name = file.originalname.split(' ').join('_');  // Remplace les espaces par des underscores
-        const extension = MIME_TYPES[file.mimetype];  // Détermine l'extension du fichier
-        callback(null, Date.now() + '_' + name + '.' + extension);  // Construit le nom du fichier
+        callback(null, Date.now() + '_' + userid + "_" + name);  // Construit le nom du fichier
     }
 });
 
