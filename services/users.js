@@ -38,7 +38,8 @@ exports.authenticate = async (req, res, next) => {
                             'id'     : user._id,
                             'name'   : name,
                             'email'  : email,
-                            'created': user.createdAt
+                            'avatar' : user.avatar,
+                            'created': user.createdAt,
                         }
                     });
                 }
@@ -60,7 +61,7 @@ exports.getById = async (req, res, next) => {
 
     try {
         let user = await User.findById(id);
-        if (user) {
+        if (user) {            
             return res.status(200).json(user);
         }
         return res.status(404).json('user_not_found');
@@ -89,7 +90,8 @@ exports.add = async (req, res) => {
     const temp = {
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        avatar: ""
     };
 
     try {
@@ -108,7 +110,8 @@ exports.update = async (req, res, next) => {
     const temp = ({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        avatar: req.body.avatar
     });
 
     if (temp.name === "" && temp.email === "" && temp.password === "") {
@@ -134,6 +137,7 @@ exports.update = async (req, res, next) => {
                     id: user._id,
                     name: user.name,
                     email: user.email,
+                    avatar: user.avatar,
                     created: user.createdAt
                 }
             });

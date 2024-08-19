@@ -18,6 +18,10 @@ const User = new Schema({
     password: {
         type: String,
         trim: true
+    },
+    avatar: {
+        type: String,
+        trim: true
     }
 }, {
     timestamps: true
