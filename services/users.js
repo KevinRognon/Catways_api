@@ -35,7 +35,7 @@ exports.authenticate = async (req, res, next) => {
 
                     return res.status(200).json({
                         'user'  : {
-                            'id'     : user._id,
+                            '_id'     : user._id,
                             'name'   : name,
                             'email'  : email,
                             'avatar' : user.avatar,
@@ -113,8 +113,9 @@ exports.update = async (req, res, next) => {
         password: req.body.password,
         avatar: req.body.avatar
     });
+    
 
-    if (temp.name === "" && temp.email === "" && temp.password === "") {
+    if (temp.name === "" && temp.email === "" && temp.password === "" && temp.avatar === undefined) {
         return res.status(400).json({
             message: "Merci de remplir au moins un champ."
         })
@@ -125,7 +126,7 @@ exports.update = async (req, res, next) => {
 
         if(user) {
             Object.keys(temp).forEach((key) => {
-                if (!!temp[key]) {
+                if (temp[key] != undefined) {
                     user[key] = temp[key];
                 }
             });
