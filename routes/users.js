@@ -7,42 +7,6 @@ const private_route = require("../middlewares/private");
 /* GET users listing. */
 
 
-/**
- * @swagger
- * tags:
- *  name: Utilisateurs
- *  description: Routes liés aux utilisateurs
- * paths:
- *   /users/findall:
- *    get:
- *        tags:
- *          - Utilisateurs
- *        summary: Récupère la liste de tous les utilisateurs
- *        responses:
- *            200:
- *                description: La liste des utilisateurs
- *                content:
- *                    application/json:
- *                        schema:
- *                            type: array
- *                            items:
- *                                type: object
- *                                properties:
- *                                    id:
- *                                        type: string
- *                                        description: ID de l'utilisateur
- *                                    name:
- *                                        type: string
- *                                        description: Nom de l'utilisateur
- *    /users/add:
- *      post:
- *          tags:
- *              - Utilisateurs
- *          summary: Ajoute un utilisateur
- *          responses:
- *              
-*/
-
 
 // Récupère tous les utilisateurs de la base de données
 router.get('/findall', private_route.checkJWT, service.findall);
