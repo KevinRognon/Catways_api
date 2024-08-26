@@ -6,6 +6,7 @@ const cors = require('cors');
 const indexRouter = require('./routes/index');
 const mongodb = require("./db/mongo");
 const path = require("path");
+const { swaggerUi, swaggerDocs } = require('./config/swagger');
 
 mongodb.initClientDbConnection();
 
@@ -23,6 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'documentation')));
+
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/', indexRouter);
 app.use(function(req, res, next) {
