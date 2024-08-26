@@ -2,12 +2,13 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const YAML = require('yamljs');
 
 const indexRouter = require('./routes/index');
 const mongodb = require("./db/mongo");
 const path = require("path");
 const swaggerUi = require('swagger-ui-express')
-const swaggerDocument = require('./docs/swagger.yaml')
+const swaggerDocument = YAML.load('./docs/swagger.yaml')
 
 mongodb.initClientDbConnection();
 

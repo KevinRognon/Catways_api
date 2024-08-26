@@ -1,0 +1,133 @@
+---
+openapi: 3.0.0
+info:
+  title: API_CATWAYS
+  version: 1.0.0
+  description: Documentation de l'API
+tags:
+  - name: Utilisateurs
+    description: Routes liées aux utilisateurs
+paths:
+  /users/findall:
+    get:
+      tags:
+        - Utilisateurs
+      summary: Récupère la liste de tous les utilisateurs
+      responses:
+        "200":
+          description: La liste des utilisateurs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID de l'utilisateur
+                    name:
+                      type: string
+                      description: Nom de l'utilisateur
+  /users/add:
+    post:
+      tags:
+        - Utilisateurs
+      summary: Ajoute un utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nom de l'utilisateur
+                email:
+                  type: string
+                  description: Email de l'utilisateur
+                password:
+                  type: string
+                  description: Mot de passe de l'utilisateur
+      responses:
+        "200":
+          description: Utilisateur ajouté avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID de l'utilisateur
+                  name:
+                    type: string
+                    description: Nom de l'utilisateur
+                  email:
+                    type: string
+                    description: Email de l'utilisateur
+  /users/:id/update:
+    patch:
+      tags:
+        - Utilisateurs
+      summary: Modifie un utilisateur
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID de l'utilisateur à modifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nom de l'utilisateur
+                email:
+                  type: string
+                  description: Email de l'utilisateur
+                password:
+                  type: string
+                  description: Mot de passe de l'utilisateur
+      responses:
+        "201":
+          description: Modifications effectuées avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  avatar:
+                    type: string
+                  created:
+                    type: string
+        "404":
+          description: user_not_found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "501":
+          description: Erreur lors de la requête
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
