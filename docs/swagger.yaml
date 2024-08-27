@@ -7,6 +7,10 @@ info:
 tags:
   - name: Utilisateurs
     description: Routes liées aux utilisateurs
+  - name: Catways
+    description: Routes liées aux catways
+  - name: Reservations
+    description: Routes liées aux réservations
 paths:
   /users/findall:
     get:
@@ -29,6 +33,17 @@ paths:
                     name:
                       type: string
                       description: Nom de l'utilisateur
+        "501":
+          description: Erreur du serveur
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message: 
+                      type: string
   /users/add:
     post:
       tags:
@@ -67,6 +82,15 @@ paths:
                   email:
                     type: string
                     description: Email de l'utilisateur
+        "501":
+          description: Error creating user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /users/:id/update:
     patch:
       tags:
@@ -130,4 +154,355 @@ paths:
                 type: object
                 properties:
                   message:
+                    type: string
+  /users/:id/delete:
+    delete:
+      tags:
+        - Utilisateurs
+      summary: Supprime un utilisateur
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID de l'utilisateur à supprimer
+      responses:
+        "204":
+          description: Suppression effective
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "501":
+          description: Erreur lors de la requête
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /users/authenticate:
+    post:
+      tags:
+        - Utilisateurs
+      summary: Se connecter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nom d'utilisateur
+                email:
+                  type: string
+                  description: Email de l'utilisateur
+                password:
+                  type: string
+                  description: Mot de passe de l'utilisateur
+      responses:
+        "200":
+          description: Connexion autorisée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    type: object
+        "403":
+          description: Wrong credentials
+        "404":
+          description: User not found
+        "501":
+          description: Erreur lors de la requête
+          
+  /catways/:
+    get:
+      tags:
+        - Catways
+      summary: Retourne la liste des catways
+      responses:
+        "200":
+          description: Retourne la liste des catways
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  catways:
+                    type: object
+  /catways/create:
+    post:
+      tags:
+        - Catways
+      summary: Créer un catway
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                catwayNumber:
+                  type: number
+                  description: Numéro du catway
+                catwayType:
+                  type: string
+                  description: Type de catway
+                catwayState:
+                  type: string
+                  description: Etat du catway
+      responses:
+        "200":
+          description: Catway créé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  catway:
+                    type: object
+        "400":
+          description: Le catway existe déjà
+        "501":
+          description: Erreur lors de la requête
+  /catways/:id/update:
+    patch:
+      tags:
+        - Catways
+      summary: Modifie un catway
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID du catway à modifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newState:
+                  type: string
+                  description: Nouvel état du catway
+      responses:
+        "200":
+          description: Catway modifié avec succès.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Erreur lors de la modification du catway
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "501":
+          description: Erreur lors de la requête
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /catways/:id/delete:
+    delete:
+      tags:
+        - Catways
+      summary: Supprime un catway
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID du catway à supprimer
+      responses:
+        "200":
+          description: Suppression effective
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "501":
+          description: Erreur lors de la requête
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /reservations/:
+    get:
+      tags:
+        - Reservations
+      summary: Retourne la liste des réservations
+      responses:
+        "200":
+          description: Retourne la liste des réservations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  catways:
+                    type: object
+        "404":
+          description: Reservation not found
+        "500":
+          description: Erreur lors de la requête
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+  /reservations/create:
+    post:
+      tags:
+        - Reservations
+      summary: Créer une réservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                catwayNumber:
+                  type: number
+                  description: Numéro du catway
+                clientName:
+                  type: string
+                  description: Nom du client
+                boatName:
+                  type: string
+                  description: Nom du bateau
+                checkIn:
+                  type: string
+                  description: Début du créneau
+                checkOut:
+                  type: string
+                  description: Fin du créneau
+      responses:
+        "201":
+          description: Réservation créée avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  reservation:
+                    type: object
+        "400":
+          description: Une réservation est déjà enregistrée pour ce créneau
+        "500":
+          description: Erreur lors de la requête
+  /reservations/:id/:
+    get:
+      tags:
+        - Reservations
+      summary: Récupère les informations d'une réservation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID de la réservation
+      responses:
+        "200":
+          description: Succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  reservation:
+                    type: object
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Erreur lors de la requête
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /reservations/:id:
+    delete:
+      tags:
+        - Reservations
+      summary: Supprime une réservation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID de la réservation
+      responses:
+        "200":
+          description: Réservation supprimée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Erreur lors de la requête
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
                     type: string
