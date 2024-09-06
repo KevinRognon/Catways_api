@@ -6,6 +6,8 @@ const private_route = require("../middlewares/private");
 
 /* GET users listing. */
 
+
+
 // Récupère tous les utilisateurs de la base de données
 router.get('/findall', private_route.checkJWT, service.findall);
 

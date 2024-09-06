@@ -2,10 +2,13 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const YAML = require('yamljs');
 
 const indexRouter = require('./routes/index');
 const mongodb = require("./db/mongo");
 const path = require("path");
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = YAML.load('./docs/swagger.yaml')
 
 mongodb.initClientDbConnection();
 
@@ -23,6 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'documentation')));
+
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', indexRouter);
 app.use(function(req, res, next) {
